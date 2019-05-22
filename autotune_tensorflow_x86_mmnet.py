@@ -54,16 +54,9 @@ image_url = os.path.join(repo_base, img_name)
 # Please refer docs/frontend/tensorflow.md for more details for various models
 # from tensorflow.
 
-model_name = 'classify_image_graph_def-with_shapes.pb'
+model_name = '/home/dolphin/Downloads/frozen_inference_graph_fuse_bn_640x360.pb'
 model_url = os.path.join(repo_base, model_name)
 
-# Image label map
-map_proto = 'imagenet_2012_challenge_label_map_proto.pbtxt'
-map_proto_url = os.path.join(repo_base, map_proto)
-
-# Human readable text for labels
-label_map = 'imagenet_synset_to_human_label_map.txt'
-label_map_url = os.path.join(repo_base, label_map)
 
 # Target settings
 # Use these commented settings to build for cuda.
@@ -82,15 +75,7 @@ ctx = tvm.cpu(0)
 # Download files listed above.
 from tvm.contrib.download import download_testdata
 
-#img_path = download_testdata(image_url, img_name, module='data')
-#model_path = download_testdata(model_url, model_name, module=['tf', 'InceptionV1'])
-#map_proto_path = download_testdata(map_proto_url, map_proto, module='data')
-#label_path = download_testdata(label_map_url, label_map, module='data')
-#model_path = '/home/dolphin/Downloads/MMNetModel_graph_use_bn.pb'
-#model_path = '/home/dolphin/Downloads/frozen_inference_graph_use_bn.pb'
-#model_path = '/home/dolphin/Downloads/frozen_inference_graph_use_bn111.pb'
 model_path = '/home/dolphin/Downloads/frozen_inference_graph_fuse_bn_640x360.pb'
-#model_path = '/home/dolphin/Downloads/MMNetModel_graph_no_use_bn.pb'
 img_path = download_testdata(image_url, img_name, module='data')
 
 ######################################################################
@@ -248,7 +233,7 @@ tasks = autotvm.task.extract_from_program(net, target=target,
 
 # run tuning tasks
 print("Tuning...")
-#tune_kernels(tasks, **tuning_option)
+tune_kernels(tasks, **tuning_option)
 #tune_kernels(tasks, **tuning_option)
 
 # compile kernels with history best records
